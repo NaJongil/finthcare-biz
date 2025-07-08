@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>핀스케어 - 엘알케이 임직원 전용</title>
+    <title id="page-title">핀스케어 - 기업 임직원 전용</title>
     <style>
         * {
             margin: 0;
@@ -33,20 +33,8 @@
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .logo {
-            height: 60px;
-            object-fit: contain;
         }
 
         .finthcare-logo {
@@ -54,12 +42,6 @@
             font-weight: bold;
             color: #4a90e2;
             letter-spacing: -1px;
-        }
-
-        .lrk-logo {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #2c3e50;
         }
 
         .welcome-section {
@@ -176,6 +158,13 @@
             margin-bottom: 20px;
         }
 
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
         .kakao-contact {
             margin-top: 15px;
         }
@@ -204,11 +193,14 @@
             font-size: 1.1rem;
         }
 
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4a90e2;
-            margin-bottom: 10px;
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -218,13 +210,6 @@
 
             .header {
                 padding: 20px;
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .logo-section {
-                flex-direction: column;
-                gap: 15px;
             }
 
             .welcome-title {
@@ -257,13 +242,11 @@
 <body>
     <div class="container">
         <header class="header">
-            <div class="logo-section">
-                <div class="finthcare-logo">FinthCare</div>
-            </div>
+            <div class="finthcare-logo">FinthCare</div>
         </header>
 
         <section class="welcome-section">
-            <h1 class="welcome-title">엘알케이 임직원 전용</h1>
+            <h1 class="welcome-title" id="company-title">임직원 전용</h1>
             <p class="welcome-subtitle">의료복지 서비스에 오신 것을 환영합니다</p>
             <p class="welcome-description">
                 임직원과 가족 여러분을 위한 특별한 의료 서비스를 제공합니다.<br>
@@ -271,8 +254,10 @@
             </p>
         </section>
 
-        <section class="services-grid">
-            <div class="service-card specialist-card" onclick="window.open('https://forms.finth.care/specialist?orgname=%EC%97%98%EC%95%8C%EC%BC%80%EC%9D%B4', '_blank')">
+        <div id="error-container"></div>
+
+        <section class="services-grid" id="services-container">
+            <div class="service-card specialist-card" id="specialist-card">
                 <div class="service-icon">🏥</div>
                 <h3 class="service-title">상급종합병원<br>전문의 추천 예약</h3>
                 <p class="service-description">
@@ -283,7 +268,7 @@
                 <button class="service-button">예약하기</button>
             </div>
 
-            <div class="service-card checkup-card" onclick="window.open('https://forms.finth.care/checkup?orgname=%EC%97%98%EC%95%8C%EC%BC%80%EC%9D%B4', '_blank')">
+            <div class="service-card checkup-card" id="checkup-card">
                 <div class="service-icon">📋</div>
                 <h3 class="service-title">대학병원<br>건강검진 할인</h3>
                 <p class="service-description">
@@ -294,7 +279,7 @@
                 <button class="service-button">예약하기</button>
             </div>
 
-            <div class="service-card aesthetic-card" onclick="window.open('https://forms.finth.care/aesthetic?orgname=%EC%97%98%EC%95%8C%EC%BC%80%EC%9D%B4', '_blank')">
+            <div class="service-card aesthetic-card" id="aesthetic-card">
                 <div class="service-icon">✨</div>
                 <h3 class="service-title">미용의료<br>추천 병의원 특가</h3>
                 <p class="service-description">
@@ -319,5 +304,100 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        // 회사별 설정 정보
+        const companyConfigs = {
+            'larosee': {
+                koreanName: '엘알케이',
+                englishName: 'larosee',
+                tallyOrgname: '%EC%97%98%EC%95%8C%EC%BC%80%EC%9D%B4'
+            },
+            'company2': {
+                koreanName: '삼성전자',
+                englishName: 'company2', 
+                tallyOrgname: '%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90'
+            },
+            'sk': {
+                koreanName: 'SK텔레콤',
+                englishName: 'sk',
+                tallyOrgname: 'SK%ED%85%94%EB%A0%88%EC%BD%A4'
+            }
+            // 새 회사 추가 시 여기에 추가하면 됩니다
+        };
+
+        // URL에서 회사 정보 추출
+        function getCurrentCompany() {
+            // URL 경로에서 회사명 추출 (예: /larosee)
+            const path = window.location.pathname;
+            const companyFromPath = path.substring(1); // 첫 번째 '/' 제거
+            
+            // URL 파라미터에서 회사명 추출 (예: ?company=larosee)
+            const urlParams = new URLSearchParams(window.location.search);
+            const companyFromParam = urlParams.get('company');
+            
+            // 경로 우선, 없으면 파라미터, 둘 다 없으면 기본값
+            return companyFromPath || companyFromParam || 'larosee';
+        }
+
+        // 페이지 초기화
+        function initializePage() {
+            const currentCompany = getCurrentCompany();
+            const config = companyConfigs[currentCompany];
+            
+            if (!config) {
+                showError(`등록되지 않은 회사입니다: ${currentCompany}`);
+                return;
+            }
+            
+            // 페이지 제목 변경
+            document.getElementById('page-title').textContent = `핀스케어 - ${config.koreanName} 임직원 전용`;
+            document.getElementById('company-title').textContent = `${config.koreanName} 임직원 전용`;
+            
+            // 서비스 카드에 클릭 이벤트 연결
+            setupServiceCards(config);
+        }
+
+        // 서비스 카드 설정
+        function setupServiceCards(config) {
+            const baseUrl = 'https://forms.finth.care';
+            
+            // 전문의 예약
+            document.getElementById('specialist-card').onclick = function() {
+                window.open(`${baseUrl}/specialist?orgname=${config.tallyOrgname}`, '_blank');
+            };
+            
+            // 건강검진
+            document.getElementById('checkup-card').onclick = function() {
+                window.open(`${baseUrl}/checkup?orgname=${config.tallyOrgname}`, '_blank');
+            };
+            
+            // 미용의료
+            document.getElementById('aesthetic-card').onclick = function() {
+                window.open(`${baseUrl}/aesthetic?orgname=${config.tallyOrgname}`, '_blank');
+            };
+        }
+
+        // 에러 메시지 표시
+        function showError(message) {
+            const errorContainer = document.getElementById('error-container');
+            const servicesContainer = document.getElementById('services-container');
+            
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    ${message}<br><br>
+                    <button class="service-button" onclick="window.open('https://forms.finth.care/ask', '_blank')" style="background: linear-gradient(45deg, #e74c3c, #c0392b); margin-top: 10px;">
+                        핀스케어 도입 문의하기
+                    </button>
+                </div>
+            `;
+            
+            // 서비스 카드 숨기기
+            servicesContainer.style.display = 'none';
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
 </body>
 </html>
