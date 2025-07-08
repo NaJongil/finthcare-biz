@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">핀스케어 - 기업 임직원 전용</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .finthcare-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+            letter-spacing: -1px;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .welcome-description {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #4a90e2;
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .specialist-card { color: #e74c3c; }
+        .checkup-card { color: #27ae60; }
+        .aesthetic-card { color: #f39c12; }
+
+        .service-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .service-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .service-button {
+            background: linear-gradient(45deg, #4a90e2, #667eea);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .service-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .kakao-contact {
+            margin-top: 15px;
+        }
+
+        .kakao-button {
+            background: #FEE500;
+            color: #3C1E1E;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(254, 229, 0, 0.3);
+        }
+
+        .kakao-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(254, 229, 0, 0.4);
+        }
+
+        .kakao-icon {
+            font-size: 1.1rem;
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .service-card {
+                padding: 30px 20px;
+            }
+
+            .service-icon {
+                font-size: 3rem;
+            }
+
+            .service-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="finthcare-logo">FinthCare</div>
+        </header>
+
+        <section class="welcome-section">
+            <h1 class="welcome-title" id="company-title">임직원 전용</h1>
+            <p class="welcome-subtitle">의료복지 서비스에 오신 것을 환영합니다</p>
+            <p class="welcome-description">
+                임직원과 가족 여러분을 위한 특별한 의료 서비스를 제공합니다.<br>
+                상급종합병원 전문의 예약부터 건강검진, 미용의료까지 합리적인 가격으로 이용하세요.
+            </p>
+        </section>
+
+        <div id="error-container"></div>
+
+        <section class="services-grid" id="services-container">
+            <div class="service-card specialist-card" id="specialist-card">
+                <div class="service-icon">🏥</div>
+                <h3 class="service-title">상급종합병원<br>전문의 추천 예약</h3>
+                <p class="service-description">
+                    큰 병원이 필요할 때, 하루만에<br>
+                    Big6 상급종합병원 추천 전문의<br>
+                    빠른 예약을 잡아 드립니다.
+                </p>
+                <button class="service-button">예약하기</button>
+            </div>
+
+            <div class="service-card checkup-card" id="checkup-card">
+                <div class="service-icon">📋</div>
+                <h3 class="service-title">대학병원<br>건강검진 할인</h3>
+                <p class="service-description">
+                    고품질 대학병원 건강검진,<br>
+                    최대 48% 할인된 합리적인<br>
+                    가격으로 예약해 드립니다.
+                </p>
+                <button class="service-button">예약하기</button>
+            </div>
+
+            <div class="service-card aesthetic-card" id="aesthetic-card">
+                <div class="service-icon">✨</div>
+                <h3 class="service-title">미용의료<br>추천 병의원 특가</h3>
+                <p class="service-description">
+                    의료인들도 인정하는 분야별<br>
+                    미용의료 추천 병의원을<br>
+                    언제나 특가로 예약 하세요.
+                </p>
+                <button class="service-button">예약하기</button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-logo">FinthCare</div>
+            <div class="footer-content">
+                기업용 의료복지 서비스
+            </div>
+            <div class="kakao-contact" onclick="window.open('http://pf.kakao.com/_xjizPn/chat', '_blank')">
+                <div class="kakao-button">
+                    <span class="kakao-icon">💬</span>
+                    카톡으로 상담하세요
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 회사별 설정 정보
+        const companyConfigs = {
+            'larosee': {
+                koreanName: '엘알케이',
+                englishName: 'larosee',
+                tallyOrgname: '%EC%97%98%EC%95%8C%EC%BC%80%EC%9D%B4'
+            },
+            'company2': {
+                koreanName: '삼성전자',
+                englishName: 'company2', 
+                tallyOrgname: '%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90'
+            },
+            'sk': {
+                koreanName: 'SK텔레콤',
+                englishName: 'sk',
+                tallyOrgname: 'SK%ED%85%94%EB%A0%88%EC%BD%A4'
+            }
+            // 새 회사 추가 시 여기에 추가하면 됩니다
+        };
+
+        // URL에서 회사 정보 추출
+        function getCurrentCompany() {
+            // URL 경로에서 회사명 추출 (예: /larosee)
+            const path = window.location.pathname;
+            const companyFromPath = path.substring(1); // 첫 번째 '/' 제거
+            
+            // URL 파라미터에서 회사명 추출 (예: ?company=larosee)
+            const urlParams = new URLSearchParams(window.location.search);
+            const companyFromParam = urlParams.get('company');
+            
+            // 경로 우선, 없으면 파라미터, 둘 다 없으면 기본값
+            return companyFromPath || companyFromParam || 'larosee';
+        }
+
+        // 페이지 초기화
+        function initializePage() {
+            const currentCompany = getCurrentCompany();
+            const config = companyConfigs[currentCompany];
+            
+            if (!config) {
+                showError(`등록되지 않은 회사입니다: ${currentCompany}`);
+                return;
+            }
+            
+            // 페이지 제목 변경
+            document.getElementById('page-title').textContent = `핀스케어 - ${config.koreanName} 임직원 전용`;
+            document.getElementById('company-title').textContent = `${config.koreanName} 임직원 전용`;
+            
+            // 서비스 카드에 클릭 이벤트 연결
+            setupServiceCards(config);
+        }
+
+        // 서비스 카드 설정
+        function setupServiceCards(config) {
+            const baseUrl = 'https://forms.finth.care';
+            
+            // 전문의 예약
+            document.getElementById('specialist-card').onclick = function() {
+                window.open(`${baseUrl}/specialist?orgname=${config.tallyOrgname}`, '_blank');
+            };
+            
+            // 건강검진
+            document.getElementById('checkup-card').onclick = function() {
+                window.open(`${baseUrl}/checkup?orgname=${config.tallyOrgname}`, '_blank');
+            };
+            
+            // 미용의료
+            document.getElementById('aesthetic-card').onclick = function() {
+                window.open(`${baseUrl}/aesthetic?orgname=${config.tallyOrgname}`, '_blank');
+            };
+        }
+
+        // 에러 메시지 표시
+        function showError(message) {
+            const errorContainer = document.getElementById('error-container');
+            const servicesContainer = document.getElementById('services-container');
+            
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    ${message}<br><br>
+                    <button class="service-button" onclick="window.open('https://forms.finth.care/ask', '_blank')" style="background: linear-gradient(45deg, #e74c3c, #c0392b); margin-top: 10px;">
+                        핀스케어 도입 문의하기
+                    </button>
+                </div>
+            `;
+            
+            // 서비스 카드 숨기기
+            servicesContainer.style.display = 'none';
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
