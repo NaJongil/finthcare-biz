@@ -336,13 +336,20 @@
             const urlParams = new URLSearchParams(window.location.search);
             const companyFromParam = urlParams.get('company');
             
-            // 경로 우선, 없으면 파라미터, 둘 다 없으면 기본값
-            return companyFromPath || companyFromParam || 'larosee';
+            // 경로 우선, 없으면 파라미터
+            return companyFromPath || companyFromParam || null;
         }
 
         // 페이지 초기화
         function initializePage() {
             const currentCompany = getCurrentCompany();
+            
+            // 회사명이 없으면 메인 사이트로 리다이렉트
+            if (!currentCompany) {
+                window.location.href = 'https://finth.care';
+                return;
+            }
+            
             const config = companyConfigs[currentCompany];
             
             if (!config) {
